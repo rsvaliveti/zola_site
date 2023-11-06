@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "macros/bibentry.html" as bibentry %}
+
+{% block content %}
+
+{% if section.extra.bibfile_name -%}
+  {% set bibtex_path = section.extra.bibfile_name  -%}
+{% else -%}
+  {% for asset in section.assets -%}
+    {% if asset is ending_with("bib") -%}
+      {% set bibtex_path = asset -%}
+      {% break -%}
+    {% endif -%}
+  {% endfor -%}
+{% endif -%}
+
+{% if bibtex_path -%}
+  {% set bibtex = load_data(path=bibtex_path, required=false, format="bibtex") -%}
+  {% if bibtex -%}{% set bibtex_entries = bibtex.bibliographies -%}{% endif -%}
+{% endif -%}
+
+<div class="container max-w-3xl mx-auto px-4">
+  <div class="font-sans py-8">
+    <h1 class="font-bold font-sans break-normal text-gray-900 pb-2 text-3xl md:text-4xl">{{ section.title }}</h1>
+  </div>
+
+  <article class="prose prose-indigo max-w-3xl">
+    {{ section.content | safe }}
+  </article>
+
+  {% for publication_type in section.extra.publications_types -%}
+    <div class ="prose py-4">
+      <h2 class=""> {{publication_type.title}} </h2>
+    </div>
+
+    {% if bibtex_entries -%}
+      {% set filtered_bib = bibtex_entries | filter(attribute="entry_type", value = publication_type.type) %}
+      <ul>
+      {% for bibtex_entry in filtered_bib | sort(attribute="tags.date") | reverse  -%}
+        <li class="pb-3">
+          {{ bibentry::summary(bibtags=bibtex_entry.tags) }}
+        </li>
+      {% endfor -%}
+    </ul>
+    {% else -%}
+      No bibtex entries. Check the path to the bib file.
+    {% endif -%}
+
+  {% endfor -%}
+
+</div>
+{% endblock content %}

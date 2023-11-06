@@ -1,0 +1,6 @@
+[submodule "themes/kodama-theme"]
+	path = themes/kodama-theme
+	url = https://github.com/adfaure/kodama-theme
+[submodule "_bib"]
+	path = _bib
+	url = https://github.com/rsvaliveti/pubs

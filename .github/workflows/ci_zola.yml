@@ -1,0 +1,28 @@
+# this script is executed manually (not on every push)
+on: workflow_dispatch
+name: Build and deploy GH Pages
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: install zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola@0.17.1
+
+      - name: Build the site with zola
+        run: zola build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        with:
+            branch: gh-pages # The branch the action should deploy to.
+            folder: public # The folder the action should deploy.
+            target-folder: . # the root of the repo
+            single-commit: true # only save the last commit on the deploy branch

@@ -1,0 +1,62 @@
+
+{% macro title(bibtags) -%}
+  {{ bibtags.title }}
+{% endmacro -%}
+
+{% macro authors(bibtags, links_allowed=true) -%}
+  {% if bibtags.author -%}
+    {{ bibtags.author | replace(from=" and", to=",") }}
+  {% else -%}
+    Unknown author. Refer to the documentation.
+  {% endif -%}
+{% endmacro -%}
+
+{% macro abstract(bibtags) -%}
+  {% if bibtags.abstract -%}
+    {{ bibtags.abstract }}
+  {% endif -%}
+{% endmacro -%}
+
+{% macro details(bibtags, sep=", ", links_allowed=true) -%}{#" • "#}
+  {% if bibtags.booktitle -%}{{ bibtags.booktitle }}{{ sep }}{% endif -%}
+  {% if bibtags.journaltitle -%}{{ bibtags.journaltitle }}{{ sep }}
+  {% elif bibtags.journal -%}{{ bibtags.journal }}{{ sep }}
+  {% endif -%}
+  {% if bibtags.volume -%}{{ trans(key="volume", lang=lang) }} {{ bibtags.volume }}{{ sep }}{% endif -%}
+  {% if bibtags.number -%}{{ trans(key="number", lang=lang) }} {{ bibtags.number }}{{ sep }}{% endif -%}
+  {% if bibtags.pages -%}{{ trans(key="pages", lang=lang) }} {{ bibtags.pages | replace(from="--", to="&ndash;") | safe }}{{ sep }}{% endif -%}
+  {{ bibtags.date }}
+  {% if bibtags.doi -%}{{ sep -}}
+    {% if links_allowed-%}<a href="https://doi.org/{{bibtags.doi}}" target="_blank">{%endif-%}
+    doi: {{ bibtags.doi -}}
+    {% if links_allowed-%}</a>{%endif-%}
+  {% endif -%}
+{% endmacro -%}
+
+{% macro summary(bibtags, show_urls=true, show_frame=true, show_description=true) -%}
+{% if show_frame -%}
+<div class="py-4 px-8 bg-white shadow-lg rounded-lg hover:shadow-xl">
+{% endif -%}
+    <p class="text-sm text-slate-400">{{bibentry::authors(bibtags=bibtags, links_allowed=false)}}</p>
+    <h2 class="text-xl font-bold text-blue-600 hover:text-blue-800 visited:text-purple-600">{{bibentry::title(bibtags=bibtags)}}</h2>
+    <p class="text-sm text-slate-400">{{bibentry::details(bibtags=bibtags, links_allowed=false)}}</p>
+
+    {% if show_description and bibtags.description-%}
+    <p class="text-sm py-1"> {{ bibtags.description | markdown(inline=true) | safe }} </p>
+    {% elif show_description and bibtags.abstract -%}
+    <p class="text-sm pb-1"> {{ bibtags.abstract | safe | truncate(length=250) }} </p>
+    {% endif -%}
+
+    {% if show_urls -%}
+      {% if bibtags.url_pdf %}
+      <a class="rounded-md border-solid border border-blue-600 inline-flex items-center text-blue-600 justify-center px-2 py-1 mr-2 text-xs font-bold" target="_blank" href="{{ bibtags.url_pdf }}"> pdf </a>
+      {% endif -%}
+
+      {% if bibtags.url -%}
+      <a class="rounded-md border-solid border border-blue-600 inline-flex items-center text-blue-600 justify-center px-2 py-1 mr-2 text-xs font-bold" target="_blank" href="{{bibtags.url}}"> url </a>
+      {% endif -%}
+    {% endif -%}
+{% if show_frame -%}
+</div>
+{% endif -%}
+{% endmacros %}
