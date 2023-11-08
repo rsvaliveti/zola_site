@@ -1,0 +1,79 @@
+
+#
+# Contains macros to display various sections of the cv
+# Each macro displays *one* specific entry of the specified
+# category. The caller loops through all the entries in the
+# cv section (or category)
+#
+
+#============
+# education
+#============
+
+{% macro education(education, show_urls=true, show_frame=true) -%}
+{% if show_frame -%}
+<div class="py-4 px-8 bg-white shadow-lg rounded-lg hover:shadow-xl">
+{% endif -%}
+
+<h2 class="text-xl font-bold text-blue-600 hover:text-blue-800 visited:text-purple-600">{{education.degree}} ({{education.area}})</h2>
+<p class="text-sm text-slate-400">{{education.school}}</p>
+<p class="text-sm text-slate-400">
+{{education.startDate | date(format="%B %Y")}}- 
+{{education.endDate | date(format="%B %Y")}} - {{education.location}}</p>
+<ul>
+{% for line in education.description %}
+<li class="text-sm py-1"> {{line}}</li>
+{% endfor %}
+</ul>
+
+{% if show_frame -%}
+</div>
+{% endif -%}
+{% endmacro -%}
+
+#============
+# awards
+#============
+
+{% macro awards(awards, show_urls=true, show_frame=true) -%}
+{% if show_frame -%}
+<div class="py-4 px-8 bg-white shadow-lg rounded-lg hover:shadow-xl">
+{% endif -%}
+
+<h2 class="text-xl font-bold text-blue-600 hover:text-blue-800 visited:text-purple-600">{{awards.title}} </h2>
+<p class="text-sm text-slate-400">{{awards.awarder}} - {{awards.startDate | date(format="%B %Y")}} </p>
+<p class="text-sm py-1"> {{awards.summary}}</p>
+
+{% if show_frame -%}
+</div>
+{% endif -%}
+{% endmacro %}
+
+#============
+# work
+#============
+
+{% macro work(work, show_urls=true, show_frame=true) -%}
+{% if show_frame -%}
+<div class="py-4 px-8 bg-white shadow-lg rounded-lg hover:shadow-xl">
+{% endif -%}
+
+<h2 class="text-xl font-bold text-blue-600 hover:text-blue-800 visited:text-purple-600">{{work.position}} </h2>
+<p class="text-sm text-slate-400">{{work.company}} </p>
+<p class="text-sm text-slate-400">
+{{work.startDate | date(format="%B %Y")}} -
+{% if work.endDate %}
+{{work.endDate | date (format="%B %Y")}}
+{% else %} Present
+{% endif %}. {{ work.location}} </p>
+
+<ul>
+{% for line in work.highlights %}
+<li class="text-sm py-1"> {{line}}</li>
+{% endfor %}
+</ul>
+
+{% if show_frame -%}
+</div>
+{% endif -%}
+{% endmacros %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "macros/cv.html" as cv %}
+
+{% block content %}
+
+{% if section.extra.cvfile_name -%}
+  {% set cv_path = section.extra.cvfile_name  -%}
+{% else -%}
+  {% for asset in section.assets -%}
+    {% if asset is ending_with("yaml") -%}
+      {% set cv_path = asset -%}
+      {% break -%}
+    {% endif -%}
+  {% endfor -%}
+{% endif -%}
+
+{% if cv_path -%}
+  {% set cv_data = load_data(path=cv_path, required=false, format="yaml") -%}
+{% endif -%}
+
+<div class="container max-w-3xl mx-auto px-4">
+  <div class="font-sans py-8">
+    <h1 class="font-bold font-sans break-normal text-gray-900 pb-2 text-3xl md:text-4xl">{{ section.title }}</h1>
+  </div>
+
+  <article class="prose prose-indigo max-w-3xl">
+    {{ section.content | safe }}
+  </article>
+
+  {% for category in section.extra.categories -%}
+    <div class ="prose py-4">
+      <h2 class=""> {{category.title}} </h2>
+    </div>
+
+    {% if cv_data -%}
+      <ul>
+          {% if category.type == "education" %}
+            {% for item in cv_data.education %}
+              <li class="pb-3">
+              {{ cv::education(education=item) }}
+              </li>
+            {% endfor %}
+          {% elif category.type == "awards" %}
+            {% for item in cv_data.awards %}
+              <li class="pb-3">
+              {{ cv::awards(awards=item) }}
+              </li>
+            {% endfor %}
+          {% elif category.type == "work" %}
+            {% for item in cv_data.work %}
+              <li class="pb-3">
+              {{ cv::work(work=item) }}
+              </li>
+            {% endfor %}
+          {% endif %}
+      </ul>
+    {% else -%}
+      No CV Yaml. Check the path to the YAML file.
+    {% endif -%}
+
+  {% endfor -%}
+
+</div>
+{% endblock content %}

@@ -5,7 +5,7 @@ sort_by = "date"
 template = "publications-bibtex.html"
 #page_template = "publication-page.html"
 insert_anchor_links = "right"
-weight = 3
+weight = 5
 
 [extra]
 index_title = "Recent Publications"
