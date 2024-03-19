@@ -1,23 +1,17 @@
 [project]
-name = "zola-site"
+name = "zola_site"
 version = "0.1.0"
-description = "Add your description here"
+description = "Default template for PDM package"
 authors = [
-    { name = "Radhakrishna Valiveti", email = "rsvaliveti@gmail.com" }
+    {name = "Radhakrishna Valiveti",email = "rvaliveti@outlook.com"},
 ]
 dependencies = [
     "bibtexparser>=1.4.1",
 ]
+requires-python = ">=3.10"
 readme = "README.md"
-requires-python = ">= 3.8"
+license = {text = "MIT"}
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
-[tool.rye]
-managed = true
-dev-dependencies = []
-
-[tool.hatch.metadata]
-allow-direct-references = true
+[tool.pdm]
+distribution = false
