@@ -1,8 +1,12 @@
-# this script is executed manually (not on every push)
-on: workflow_dispatch
-name: Build and deploy GH Pages
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -11,11 +15,14 @@ jobs:
           fetch-depth: 1
           submodules: true
 
-      - name: build_and_deploy
-        uses: shalzz/zola-deploy-action@v0.17.2
-        env:
-          PAGES_BRANCH: gh-pages
-          BUILD_DIR: .
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install and Run Zola
+        run: |
+          sudo snap install --edge zola
+          zola build
 
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
 
