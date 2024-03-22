@@ -1,9 +1,7 @@
+# this script is executed manually (not on every push)
+on: workflow_dispatch
 name: github pages
 
-on:
-  push:
-    branches:
-      - master
 
 jobs:
   deploy:
