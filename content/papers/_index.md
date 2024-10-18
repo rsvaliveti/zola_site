@@ -1,5 +1,4 @@
 +++
-date = 2023-10-29
 title = "Publications"
 sort_by = "date"
 template = "publications-bibtex.html"

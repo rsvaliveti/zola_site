@@ -1,6 +1,5 @@
 +++
 title = "RSV"
-date = 2023-10-19
 page_template="page.html"
 
 [extra]

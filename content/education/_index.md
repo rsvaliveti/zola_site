@@ -1,5 +1,4 @@
 +++
-date = 2023-11-07
 title = "Education and Awards"
 sort_by = "date"
 template = "display-cv.html"
