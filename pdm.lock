@@ -4,19 +4,22 @@
 [metadata]
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
-lock_version = "4.4.1"
-content_hash = "sha256:9d1de5b69f889b3d3c8d82d6d988bcc4825e9853ea3fbe333eb2c33da9c209bc"
+lock_version = "4.5.0"
+content_hash = "sha256:ec7f0fcde6a9fb2c4ce81535295d11fd5d75692de3478c899037c33969275b17"
+
+[[metadata.targets]]
+requires_python = ">=3.10"
 
 [[package]]
 name = "bibtexparser"
-version = "1.4.1"
+version = "1.4.3"
 summary = "Bibtex parser for python 3"
 groups = ["default"]
 dependencies = [
     "pyparsing>=2.0.3",
 ]
 files = [
-    {file = "bibtexparser-1.4.1.tar.gz", hash = "sha256:e00e29e24676c4808e0b4333b37bb55cca9cbb7871a56f63058509281588d789"},
+    {file = "bibtexparser-1.4.3.tar.gz", hash = "sha256:a9c7ded64bc137720e4df0b1b7f12734edc1361185f1c9097048ff7c35af2b8f"},
 ]
 
 [[package]]
